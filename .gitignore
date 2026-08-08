@@ -1,0 +1,38 @@
+# Runtime outputs
+tmp/
+
+# Terraform state (may contain account IDs and ARNs)
+**/.terraform/
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/*.tfplan
+# .terraform.lock.hcl is intentionally committed (provider version pinning).
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Environment / credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# macOS
+.DS_Store
+
+# Claude
+.claude/
+claude.md

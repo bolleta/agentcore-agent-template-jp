@@ -1,0 +1,15 @@
+This project is derived from aws-samples/sample-genai-strats
+(https://github.com/aws-samples/sample-genai-strats), which is distributed under
+the MIT No Attribution license (MIT-0).
+
+    Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+The original LICENSE is retained verbatim in this repository.
+
+The upstream project is a set of guided Amazon Bedrock AgentCore workshops. This
+repository reworks two of those workshops into deployable, reusable templates
+targeting ap-northeast-1 (Tokyo) and Japanese-language workloads. The
+modifications are described in the "What I changed" section of README.md and are
+recorded in this repository's commit history.
+
+Modifications copyright 2026 bolleta.
