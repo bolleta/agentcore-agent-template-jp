@@ -1,0 +1,12 @@
+Example Knowledge Base Document
+================================
+
+Replace this file with documents relevant to your agent's domain.
+
+The knowledge base ingests all .txt files in this directory and makes them
+searchable via the search_knowledge_base tool in src/agent/tools/knowledge_base.py.
+
+Tips:
+- Plain text works best for chunking. One topic per file is a good practice.
+- File names become part of the source metadata shown in retrieval results.
+- After adding files, run `make deploy-infra` to trigger re-ingestion.
