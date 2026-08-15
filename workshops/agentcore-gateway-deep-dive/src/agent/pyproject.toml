@@ -1,0 +1,12 @@
+[project]
+name = "gateway-agent"
+version = "0.1.0"
+description = "MCP Gateway agent template for Amazon Bedrock AgentCore"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "bedrock-agentcore>=1.6.3",
+    "requests>=2.32.0",
+    "boto3>=1.42.94",
+    "strands-agents>=1.37.0",
+]
