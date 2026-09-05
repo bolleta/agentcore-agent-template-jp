@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: Consistency tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -r requirements-dev.txt
+      - run: pytest tests -q
+
+  terraform:
+    name: terraform validate (${{ matrix.template }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        template:
+          - agentcore-building-ai-agents
+          - agentcore-gateway-deep-dive
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.14.5"
+
+      # runtime/s3.tf calls filemd5() on the agent bundle, which `terraform
+      # validate` evaluates eagerly. The bundle is a build artifact (`make
+      # build-agent-package`), so CI stands in a placeholder rather than
+      # installing the full Python toolchain just to validate HCL.
+      - name: Stage agent bundle placeholder
+        run: |
+          dir="workshops/${{ matrix.template }}/tmp/agent_package"
+          mkdir -p "$dir"
+          echo placeholder > placeholder.txt
+          zip -q -j "$dir/agent.zip" placeholder.txt
+          rm placeholder.txt
+
+      - name: terraform fmt (report only)
+        continue-on-error: true
+        run: terraform fmt -check -recursive workshops/${{ matrix.template }}/terraform
+
+      - name: terraform init
+        working-directory: workshops/${{ matrix.template }}/terraform
+        run: terraform init -backend=false -input=false
+
+      - name: terraform validate
+        working-directory: workshops/${{ matrix.template }}/terraform
+        run: terraform validate
